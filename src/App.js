@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import "./App.css";
+import Auth from "./Pages/Auth";
+import Chat from "./Pages/Chat";
+import firebase from "./firebase.config"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log(user)
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/firebase.User
+        var uid = user.uid;
+       
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    setIsLoading(false);
+
+    });
+  }, []);
+
+  return isLoading ? (
+    <div className="d-flex text-white vh-100 vw-100 justify-content-center align-items-center">
+      Loading...
     </div>
+  ) : (
+    <div>{isAuthenticated ? <Chat /> : <Auth />}</div>
   );
 }
 
