@@ -1,7 +1,114 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import firebase from "firebase";
 
 const Chat = () => {
-  return <div></div>
+  const [userMessage, setUserMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+
+  const user = firebase.auth().currentUser;
+  const messageRef = firebase.firestore().collection("messages");
+
+  const handleMessageInput = (e) => {
+    setUserMessage(e.target.value);
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    if (userMessage) {
+      messageRef
+        .add({
+          sender: user.uid,
+          senderName: user.displayName,
+          message: userMessage,
+          createdAt: Date.now(),
+        })
+        .then(() => {
+          setUserMessage("");
+        })
+        .catch((e) => {
+          console.log(e);
+          alert(e);
+        });
+    }
+  };
+
+  const handleLogout=()=>{
+    firebase.auth().signOut();
+  }
+
+  useEffect(() => {
+    const getAllMessages = messageRef.onSnapshot((doc) => {
+      let tempMessages = [];
+      doc.docChanges().forEach((change) => {
+        if (change.type === "added") {
+          tempMessages.push(change.doc.data());
+        }
+      });
+      setMessages((prevState) => [...prevState, ...tempMessages]);
+    });
+    return () => getAllMessages();
+  }, []);
+
+  return (
+    <div className="d-flex vh-100 vw-100 justify-content-center align-items-center">
+      <div
+        style={{ maxWidth: 600, width: "90%" }}
+        className="rounded shadow p-2 text-white bg-dark"
+      >
+        <div className="d-flex">
+          <span className="ms-auto btn btn-danger btn-sm" onClick={handleLogout} >Logout</span>
+        </div>
+        <div className="text-center">
+          <h1>Chat</h1>
+          <p>
+            Welcome <span className="text-warning">{user.displayName}</span> !
+          </p>
+        </div>
+        <div
+          className="bg-white rounded "
+          style={{ height: 350, overflowY: "auto" }}
+        >
+          {messages.length ? (
+            messages.map((message, i) => (
+              <div className="d-flex" key={i}>
+                <div
+                  className={`m-2 p-2 rounded w-75 ${
+                    message.sender === user.uid ? "ms-auto text-dark": "bg-dark text-white"
+                  }`}
+                  style={{ background: "#E8F6EF" }}
+                >
+                  <div style={{ fontSize: 11 }}>
+                    <span className="text-muted">{message.senderName}</span>
+                    <span className="float-end text-muted">
+                      {new Date(message.createdAt).toUTCString()}
+                    </span>
+                  </div>
+                  {message.message}
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center pt-5">No message found!</div>
+          )}
+        </div>
+        <div>
+          <form className="d-flex" onSubmit={handleSendMessage}>
+            <input
+              className="form-control mt-1 bg-light"
+              placeholder="Enter a message"
+              onChange={handleMessageInput}
+              value={userMessage}
+            />
+            <div>
+              <button type="submit" className=" btn btn-primary mt-1 ms-1">
+                Send
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Chat;

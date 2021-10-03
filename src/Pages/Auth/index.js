@@ -3,7 +3,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 
 const Auth = () => {
-  const [showLoginPage, setShowLoginPage] = useState(false);
+  const [showLoginPage, setShowLoginPage] = useState(true);
 
   return (
     <div className="d-flex vh-100 vw-100 justify-content-center align-items-center">

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Auth from "./Pages/Auth";
 import Chat from "./Pages/Chat";
-import firebase from "./firebase.config"
+import firebase from "./firebase.config";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -10,19 +10,12 @@ function App() {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
-      console.log(user)
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
-        var uid = user.uid;
-       
-        // ...
+        setIsAuthenticated(true);
       } else {
-        // User is signed out
-        // ...
+        setIsAuthenticated(false);
       }
-    setIsLoading(false);
-
+      setIsLoading(false);
     });
   }, []);
 

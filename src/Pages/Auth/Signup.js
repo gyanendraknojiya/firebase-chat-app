@@ -23,7 +23,10 @@ const Signup = () => {
       const { user } = await firebase
         .auth()
         .createUserWithEmailAndPassword(email, password);
-      if (firebase.auth().currentUser) {
+      if (user) {
+        user.updateProfile({
+          displayName: firstName + " " + lastName,
+        });
         await firebase.firestore().collection("users").doc(user.uid).set({
           firstName,
           lastName,
