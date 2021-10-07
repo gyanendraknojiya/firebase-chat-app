@@ -36,8 +36,13 @@ const Chat = () => {
     firebase.auth().signOut();
   }
 
+  const scroll_to = (div)=>{
+    if (div.scrollTop < div.scrollHeight - div.clientHeight)
+         div.scrollTop += div.scrollHeight; 
+ 
+ }
   useEffect(() => {
-    const getAllMessages = messageRef.onSnapshot((doc) => {
+    const getAllMessages = messageRef.orderBy("createdAt").onSnapshot((doc) => {
       let tempMessages = [];
       doc.docChanges().forEach((change) => {
         if (change.type === "added") {
@@ -45,6 +50,10 @@ const Chat = () => {
         }
       });
       setMessages((prevState) => [...prevState, ...tempMessages]);
+
+        const messageContainer =document.querySelector("#messages")
+        scroll_to(messageContainer)
+  
     });
     return () => getAllMessages();
   }, []);
@@ -52,10 +61,11 @@ const Chat = () => {
   return (
     <div className="d-flex vh-100 vw-100 justify-content-center align-items-center">
       <div
-        style={{ maxWidth: 600, width: "90%" }}
+        style={{ maxWidth: 600, width: "90%", height: "90vh" }}
         className="rounded shadow p-2 text-white bg-dark"
       >
-        <div className="d-flex">
+       <div style={{height:150}} >
+       <div className="d-flex">
           <span className="ms-auto btn btn-danger btn-sm" onClick={handleLogout} >Logout</span>
         </div>
         <div className="text-center">
@@ -64,9 +74,11 @@ const Chat = () => {
             Welcome <span className="text-warning">{user.displayName}</span> !
           </p>
         </div>
+       </div>
         <div
+        id="messages"
           className="bg-white rounded "
-          style={{ height: 350, overflowY: "auto" }}
+          style={{ height: "calc(100% - 200px)", overflowY: "auto" }}
         >
           {messages.length ? (
             messages.map((message, i) => (
