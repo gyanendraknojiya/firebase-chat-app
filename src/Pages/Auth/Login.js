@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import firebase from "firebase";
+import React, { useState } from 'react';
+import firebase from 'firebase';
 
 const Login = () => {
   const [formDetails, setFormDetails] = useState({});
@@ -15,7 +15,7 @@ const Login = () => {
     const { email, password } = formDetails;
 
     if (!email || !password) {
-      alert("Please fill all fields!");
+      alert('Please fill all fields!');
       return;
     }
 
@@ -33,12 +33,7 @@ const Login = () => {
         <div className="row mx-0 my-3">
           <div className="col-12">
             <label className="form-label">Email</label>
-            <input
-              name="email"
-              value={formDetails.email}
-              className="form-control"
-              onChange={handleFormChanges}
-            />
+            <input name="email" value={formDetails.email} className="form-control" onChange={handleFormChanges} />
           </div>
           <div className="col-12">
             <label className="form-label">Password</label>

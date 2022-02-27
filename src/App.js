@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import "./App.css";
-import Auth from "./Pages/Auth";
-import Chat from "./Pages/Chat";
-import firebase from "./firebase.config";
+import { useEffect, useState } from 'react';
+import './App.css';
+import Auth from './pages/Auth';
+import Chat from './pages/Chat';
+import firebase from './firebase.config';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -20,9 +20,7 @@ function App() {
   }, []);
 
   return isLoading ? (
-    <div className="d-flex text-white vh-100 vw-100 justify-content-center align-items-center">
-      Loading...
-    </div>
+    <div className="d-flex text-white vh-100 vw-100 justify-content-center align-items-center">Loading...</div>
   ) : (
     <div>{isAuthenticated ? <Chat /> : <Auth />}</div>
   );

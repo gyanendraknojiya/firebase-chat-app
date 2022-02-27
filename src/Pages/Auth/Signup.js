@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import firebase from "../../firebase.config";
+import React, { useState } from 'react';
+import firebase from '../../firebase.config';
 
 const Signup = () => {
   const [formDetails, setFormDetails] = useState({});
@@ -15,19 +15,17 @@ const Signup = () => {
     const { firstName, lastName, email, password } = formDetails;
 
     if (!firstName || !lastName || !email || !password) {
-      alert("Please fill all fields!");
+      alert('Please fill all fields!');
       return;
     }
 
     try {
-      const { user } = await firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, password);
+      const { user } = await firebase.auth().createUserWithEmailAndPassword(email, password);
       if (user) {
         user.updateProfile({
-          displayName: firstName + " " + lastName,
+          displayName: firstName + ' ' + lastName,
         });
-        await firebase.firestore().collection("users").doc(user.uid).set({
+        await firebase.firestore().collection('users').doc(user.uid).set({
           firstName,
           lastName,
           email,
@@ -55,21 +53,11 @@ const Signup = () => {
           </div>
           <div className="col-6">
             <label className="form-label">Last Name</label>
-            <input
-              name="lastName"
-              value={formDetails.lastName}
-              className="form-control"
-              onChange={handleFormChanges}
-            />
+            <input name="lastName" value={formDetails.lastName} className="form-control" onChange={handleFormChanges} />
           </div>
           <div className="col-12">
             <label className="form-label">Email</label>
-            <input
-              name="email"
-              value={formDetails.email}
-              className="form-control"
-              onChange={handleFormChanges}
-            />
+            <input name="email" value={formDetails.email} className="form-control" onChange={handleFormChanges} />
           </div>
           <div className="col-12">
             <label className="form-label">Password</label>
