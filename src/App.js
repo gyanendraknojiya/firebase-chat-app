@@ -3,13 +3,15 @@ import './App.css';
 import Auth from './pages/Auth';
 import Chat from './pages/Chat';
 import firebase from './firebase.config';
+import Loader from './components/loader/loader';
 
-function App() {
+const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
+      setIsLoading(true);
       if (user) {
         setIsAuthenticated(true);
       } else {
@@ -19,11 +21,12 @@ function App() {
     });
   }, []);
 
-  return isLoading ? (
-    <div className="d-flex text-white vh-100 vw-100 justify-content-center align-items-center">Loading...</div>
-  ) : (
-    <div>{isAuthenticated ? <Chat /> : <Auth />}</div>
+  return (
+    <>
+      {isLoading && <Loader />}
+      <div>{isAuthenticated ? <Chat /> : <Auth />}</div>
+    </>
   );
-}
+};
 
 export default App;

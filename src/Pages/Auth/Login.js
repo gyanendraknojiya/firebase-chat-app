@@ -33,7 +33,13 @@ const Login = () => {
         <div className="row mx-0 my-3">
           <div className="col-12">
             <label className="form-label">Email</label>
-            <input name="email" value={formDetails.email} className="form-control" onChange={handleFormChanges} />
+            <input
+              name="email"
+              value={formDetails.email}
+              className="form-control"
+              onChange={handleFormChanges}
+              placeholder="Enter your email"
+            />
           </div>
           <div className="col-12">
             <label className="form-label">Password</label>
@@ -42,6 +48,7 @@ const Login = () => {
               value={formDetails.password}
               className="form-control"
               type="password"
+              placeholder="Enter your password"
               onChange={handleFormChanges}
             />
           </div>

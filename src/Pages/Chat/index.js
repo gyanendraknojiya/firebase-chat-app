@@ -41,7 +41,7 @@ const Chat = () => {
   };
   useEffect(() => {
     const getAllMessages = messageRef.orderBy('createdAt').onSnapshot((doc) => {
-      let tempMessages = [];
+      const tempMessages = [];
       doc.docChanges().forEach((change) => {
         if (change.type === 'added') {
           tempMessages.push(change.doc.data());
