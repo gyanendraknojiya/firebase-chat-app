@@ -15,6 +15,7 @@ npx create-react-app firebase-chat-app
 ![mern-stack](https://res.cloudinary.com/gyanendraknojiya/image/upload/v1633251989/cudtpaxqzhepglk9var6.png)
 
 ![mern-stack](https://res.cloudinary.com/gyanendraknojiya/image/upload/v1633252007/knva9lwkknbeg2itqsm4.png)
+
 After successfully creating your project, run your development server.
 
 ```bash
@@ -172,6 +173,7 @@ to create a new account. Make sure, you have enabled authentication in the fireb
 ```
 
 ![mern-stack](https://res.cloudinary.com/gyanendraknojiya/image/upload/v1633252713/re8z59dbxgrrqo6mt1rk.png)
+
 When the user sign-up is done, we will create a user in firestore.
 
 ```js
